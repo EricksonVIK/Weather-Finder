@@ -1,0 +1,8 @@
+:root{
+    --primary-background: darkblue;
+    --secondary-background: lightblue;
+    --primary-text: black;
+    --secondary-text:white;
+    --border-radius:5%;
+    --primary-border: black, solid, 5px;
+}
