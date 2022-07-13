@@ -6,10 +6,8 @@ var city = cityInputEl.value.trim();
 var stateInputEl = document.querySelector("#state");
 var state = stateInputEl.value.trim();
 var historyList = document.querySelector("#searchlist");
-
-
-// array to store city search history
-// var cityHistory={};
+var currentDayBlock = document.querySelector("#current");
+var fiveDayBlock = document.querySelector("#fiveDay");
 
 
 // form submit function
@@ -33,12 +31,10 @@ var submitCS = function(event){
 };
 
 
-// store input and display  - make "clickable"
-
-// event function to redisplay city on click
-// WHY CAN'T I PULL LAT AND LON
+// lat and lon arrays to pass info through from getLatLonInfo function into getWeatherInfo
 var lat =[];
 var lon = [];
+var weatherArr=[];
 // fetch functions
 var getWeatherInfo = function (lat, lon){
     console.log("this has been called");
@@ -49,8 +45,12 @@ var getWeatherInfo = function (lat, lon){
             // console.log(response);worked
             response.json().then(function(data){
                 console.log(data);
-               
+               var weather=data
+               console.log(weather)
+               weatherArr.push(weather);
             })
+        } else {
+            alert("Error, unable to connect");
         };
     })
 }
@@ -81,9 +81,15 @@ var getLatLonInfo = function (city, state){
             };
             
         });
-        // getWeatherInfo();
-
 }
+
+// display current day
+// var currentDay = function (){
+//     if 
+// }
+
+
+
 // hard coding city worked
 // getLatLonInfo("Durham");
 // getWeatherInfo();
@@ -94,8 +100,6 @@ var displayHistory= function (){
     var searchHistory = JSON.parse(localStorage.getItem('history')) || [];
     historyList.innerHTML="";
     searchHistory.forEach(function(history) {
-        // var historyEl = document.createElement("li");
-        // historyEl.innerHTML = history;
         var historyEl = document.createElement("a");
         historyEl.innerHTML = history;
         historyEl.classList="list-item flex-row justify-space-between align-center"
@@ -121,6 +125,7 @@ var displayHistory= function (){
     // } 
 
 }
+// saves city history to display under button (state not included)
 var savedHistory = function(){
     var cityHistory = JSON.parse (localStorage.getItem('history')) || [];
 
@@ -139,9 +144,10 @@ var savedHistory = function(){
     localStorage.setItem("history", JSON.stringify(cityHistory));
 };
 
-// add event listener for saved directory
-// add event listner for city input
+// displays local on start up
 displayHistory();
+
+// starts the chain of events to display weather info
 userFormEl.addEventListener("submit", submitCS);
 
 
