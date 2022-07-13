@@ -36,6 +36,7 @@ var submitCS = function(event){
 // store input and display  - make "clickable"
 
 // event function to redisplay city on click
+// WHY CAN'T I PULL LAT AND LON
 var lat =[];
 var lon = [];
 // fetch functions
@@ -65,12 +66,15 @@ var getLatLonInfo = function (city, state){
                 // console.log(response);worked
                 response.json().then(function(data){
                     console.log(data);
-                   var latr = (data ['lat']);
-                   var lonr = (data ['lon']);
+                   var latr = (data[0].lat);
+                   var lonr = (data [0].lon);
+                   console.log(latr);
+                   console.log(lonr);
                    lat.push(latr)
                    lon.push(lonr)
                    console.log(latr);
                    console.log(lat);
+                   getWeatherInfo(latr, lonr);
                 });
             } else {
                 alert("City Not Found");
@@ -88,29 +92,56 @@ var getLatLonInfo = function (city, state){
 // account for errors
 var displayHistory= function (){
     var searchHistory = JSON.parse(localStorage.getItem('history')) || [];
-
+    historyList.innerHTML="";
     searchHistory.forEach(function(history) {
-        var historyEl = document.createElement("li");
-        historyEl.innerHTML = history.city +"," + history.state;
-
+        // var historyEl = document.createElement("li");
+        // historyEl.innerHTML = history;
+        var historyEl = document.createElement("a");
+        historyEl.innerHTML = history;
+        historyEl.classList="list-item flex-row justify-space-between align-center"
+        historyEl.setAttribute("target", "_blank");   
         historyList.appendChild(historyEl);
         
     });
+    // // WHY DOES IT LIST OVER AND OVER
+    // for (var i=0; i < searchHistory.length; i++){
+    //     searchHistory.forEach(function(history) {
+    //     var historyEl = document.createElement("a");
+    //     historyEl.innerHTML = history.city +"," + history.state;
+    //     historyEl.classList="list-item flex-row justify-space-between align-center"
+    //     historyEl.setAttribute("target", "_blank");   
+    //     historyList.appendChild(historyEl);
+        
+    // });
+
+        // var historyEl = document.createElement("a");
+        // history.innerHTML = history.city + ", " + history.state;
+
+        // historyList.appendChild(historyEl);
+    // } 
 
 }
 var savedHistory = function(){
     var cityHistory = JSON.parse (localStorage.getItem('history')) || [];
 
-    cityHistory.push({
-        city: cityInputEl.value.trim(),
-        state: stateInputEl.value.trim(),
-    });
+    var city = cityInputEl.value.trim()
+
+    if (cityHistory.indexOf(city) === -1){
+
+
+            cityHistory.push(
+            city
+            // state: stateInputEl.value.trim(),
+        );
+
+    }
 
     localStorage.setItem("history", JSON.stringify(cityHistory));
 };
 
 // add event listener for saved directory
 // add event listner for city input
+displayHistory();
 userFormEl.addEventListener("submit", submitCS);
 
 
