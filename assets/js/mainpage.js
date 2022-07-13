@@ -34,7 +34,7 @@ var submitCS = function(event){
 // lat and lon arrays to pass info through from getLatLonInfo function into getWeatherInfo
 var lat =[];
 var lon = [];
-var weatherArr=[];
+var weatherArrCurr=[];
 // fetch functions
 var getWeatherInfo = function (lat, lon){
     console.log("this has been called");
@@ -44,15 +44,18 @@ var getWeatherInfo = function (lat, lon){
         if (response.ok){
             // console.log(response);worked
             response.json().then(function(data){
+                console.log("This is getWeather data")
                 console.log(data);
-               var weather=data
-               console.log(weather)
-               weatherArr.push(weather);
+               var currentWeather= (data.current)
+                console.log("this is current weather")
+               console.log(currentWeather)
+               weatherArrCurr.push(currentWeather);
             })
         } else {
             alert("Error, unable to connect");
         };
     })
+    currentDay();
 }
 var getLatLonInfo = function (city, state){
     console.log("called");
@@ -65,15 +68,16 @@ var getLatLonInfo = function (city, state){
             if (response.ok){
                 // console.log(response);worked
                 response.json().then(function(data){
+                    console.log("this is latlon") 
                     console.log(data);
                    var latr = (data[0].lat);
                    var lonr = (data [0].lon);
-                   console.log(latr);
-                   console.log(lonr);
+                //    console.log(latr);
+                //    console.log(lonr);
                    lat.push(latr)
                    lon.push(lonr)
-                   console.log(latr);
-                   console.log(lat);
+                //    console.log(latr);
+                //    console.log(lat);
                    getWeatherInfo(latr, lonr);
                 });
             } else {
@@ -84,9 +88,25 @@ var getLatLonInfo = function (city, state){
 }
 
 // display current day
-// var currentDay = function (){
-//     if 
-// }
+var currentDay = function (){
+    // catching a no info error
+    if (weatherArrCurr.length === -1){
+        alert("No information available!")
+    }
+    // current weather displayed
+    // currentDayBlock to append
+    var currentDisplay = document.createElement("div")
+    currentDisplayArr=(weatherArrCurr[0]);
+    // above is undefined, but console.log(weatherArrCurr[0].clouds will display in tools)
+    // do i need to convert the object into an array? if so, research how
+    // https://www.javascripttutorial.net/object/convert-an-object-to-an-array-in-javascript/
+    currentDisplay.innerHTML=(currentDisplayArr)
+    console.log("this is weahterArrCurr")
+    console.log(weatherArrCurr)
+    console.log("this is currentDisplayArr")
+    console.log(currentDisplayArr)
+    currentDayBlock.appendChild(currentDisplay);
+}
 
 
 
