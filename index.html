@@ -27,12 +27,12 @@
                         <label class="city-label" for="city">
                             City
                         </label>
-                        <input name="city" id="city" type="text" class="user-input-city"/>
+                        <input name="city" id="city" type="text" class="user-input-city" style="text-transform:uppercase"/>
                     </br>
                         <label class="state-label" class="card-body">
                             State
                         </label>
-                        <input name="state" id="state" type="text" class="user-input-state"/>
+                        <input name="state" id="state" type="text" class="user-input-state" style="text-transform:uppercase"/>
                         <button type="submit" class="btn" id="btn">
                             Get Weather
                         </button>
@@ -44,14 +44,24 @@
             </div>
             <div class="col-12 col-md-8">
                <div class="current" id="current">
-                    <!-- generate current city weather block -->
+                    <!-- from input -->
+                    <h1 id="cityName"></h1>
+                    <!-- array.weather.icon -->
+                    <a id="icon"></a>
+                    <!-- array.temp -->
+                    <h2 id="temp"></h2>
+                    <!-- array.wind -->
+                    <h2 id="wind"></h2>
+                    <!-- array.uvi -->
+                    <h2 id="uvi"></h2>
                </div>
                <div class="fiveDayHolder" id="fiveDayHolder">
                     <h3 class="subtitle">
                         5-Day Forcast:
                     </h3>
-                    <div class="fiveDay" id="fiveDay"></div>
+                    <div class="fiveDay" id="fiveDay">
                     <!-- generate 5 day forcast -->
+                    </div>
                </div>
             </div>
         </main>

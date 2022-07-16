@@ -6,3 +6,7 @@
     --border-radius:5%;
     --primary-border: black, solid, 5px;
 }
+
+.history{
+    text-transform: uppercase;
+}

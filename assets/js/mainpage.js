@@ -3,13 +3,15 @@ var userFormEl = document.querySelector("#search-form");
 var cityInputEl = document.querySelector("#city");
 var submitBtn = document.querySelector("#btn");
 var city = cityInputEl.value.trim();
+// var cityUpper=city.toUpperCase();
 var stateInputEl = document.querySelector("#state");
 var state = stateInputEl.value.trim();
 var historyList = document.querySelector("#searchlist");
 var currentDayBlock = document.querySelector("#current");
 var fiveDayBlock = document.querySelector("#fiveDay");
-
-
+var currentTemp=document.querySelector("#temp");
+var currentimage=document.querySelector("#image");
+var cityName=document.querySelector("#cityName")
 // form submit function
 var submitCS = function(event){
     // prevent page from refreshing
@@ -31,32 +33,15 @@ var submitCS = function(event){
 };
 
 
-// lat and lon arrays to pass info through from getLatLonInfo function into getWeatherInfo
+// Arrays
 var lat =[];
 var lon = [];
 var weatherArrCurr=[];
+// possible split
+var fiveDayArr=[];
+var tempC=[];
+var imageC=[];
 // fetch functions
-var getWeatherInfo = function (lat, lon){
-    console.log("this has been called");
-    var apiUrl = "https://api.openweathermap.org/data/3.0/onecall?lat=" + lat + "&lon=" + lon + "&appid=0714ff4099a70754b88ad38fab16cccd"
-    fetch (apiUrl)
-    .then(function (response){
-        if (response.ok){
-            // console.log(response);worked
-            response.json().then(function(data){
-                console.log("This is getWeather data")
-                console.log(data);
-               var currentWeather= (data.current)
-                console.log("this is current weather")
-               console.log(currentWeather)
-               weatherArrCurr.push(currentWeather);
-            })
-        } else {
-            alert("Error, unable to connect");
-        };
-    })
-    currentDay();
-}
 var getLatLonInfo = function (city, state){
     console.log("called");
     // format weather api
@@ -87,33 +72,77 @@ var getLatLonInfo = function (city, state){
         });
 }
 
+var getWeatherInfo = function (lat, lon){
+    console.log("this has been called");
+    var apiUrl = "https://api.openweathermap.org/data/3.0/onecall?lat=" + lat + "&lon=" + lon + "&appid=0714ff4099a70754b88ad38fab16cccd&units=imperial"
+    fetch (apiUrl)
+    .then(function (response){
+        if (response.ok){
+            // console.log(response);worked
+            response.json().then(function(data){
+                console.log("This is getWeather data")
+                console.log(data);
+                var currentWeather= (data.current)
+                console.log("this is current weather")
+                console.log(currentWeather)
+                weatherArrCurr.push(currentWeather);
+                var fiveDayWeather= (data.daily);
+                console.log("this is daily");
+                console.log(fiveDayWeather);
+                fiveDayArr.push(fiveDayWeather);
+                var temp=(data.current.temp)
+                console.log(temp)
+                tempC.push(temp);
+                var image=(data.weather)
+                imageC.push(image);
+
+            })
+        } else {
+            alert("Error, unable to connect");
+        };
+    })
+    currentDay();
+    fiveDay();
+}
+
 // display current day
 var currentDay = function (){
     // catching a no info error
+    // currentDayBlock.innerHTML="";
     if (weatherArrCurr.length === -1){
         alert("No information available!")
     }
+    // change to city upper?
+    cityName.innerHTML=cityInputEl.value.trim();
+    currentTemp.innerHTML=tempC[0]
+    // currentimage.innerHTML=imageC[0]
+
     // current weather displayed
     // currentDayBlock to append
-    var currentDisplay = document.createElement("div")
-    currentDisplayArr=(weatherArrCurr[0]);
+    // var cityName = document.createElement("div")
+    // cityNameArr=(weatherArrCurr[0].clouds);
     // above is undefined, but console.log(weatherArrCurr[0].clouds will display in tools)
     // do i need to convert the object into an array? if so, research how
     // https://www.javascripttutorial.net/object/convert-an-object-to-an-array-in-javascript/
-    currentDisplay.innerHTML=(currentDisplayArr)
-    console.log("this is weahterArrCurr")
-    console.log(weatherArrCurr)
-    console.log("this is currentDisplayArr")
-    console.log(currentDisplayArr)
-    currentDayBlock.appendChild(currentDisplay);
+    // cityName.innerHTML=cityNameArr;
+    // console.log("this is weatherArrCurr")
+    // console.log(weatherArrCurr)
+    // console.log("this is cityNameArr")
+    // console.log(cityNameArr)
+    // currentDayBlock.appendChild(cityName);
+    // currentDayBlock.innerHTML=weatherArrCurr[0]
 }
 
-
-
-// hard coding city worked
-// getLatLonInfo("Durham");
-// getWeatherInfo();
-// display result function w loop
+var fiveDay = function(){
+    // fiveDayBlock.innerHTML="";
+    var daily = fiveDayArr
+    for (var i=0; i < fiveDayArr.length; i++){
+        var dayBlock = document.createElement("div");
+        dayBlock.innerHTML=daily;
+        dayBlock.classList="list-item flex-row justify-space-between align-center"
+        fiveDayBlock.appendChild(dayBlock);
+    };
+};
 
 // account for errors
 var displayHistory= function (){
@@ -121,35 +150,26 @@ var displayHistory= function (){
     historyList.innerHTML="";
     searchHistory.forEach(function(history) {
         var historyEl = document.createElement("a");
-        historyEl.innerHTML = history;
+        // historyEl.innerHTML = history;
         historyEl.classList="list-item flex-row justify-space-between align-center"
+        // set an attribute to click and resend - Does that need to be another function?
         historyEl.setAttribute("target", "_blank");   
         historyList.appendChild(historyEl);
+        var savedCityText = document.createElement("span");
+        savedCityText.textContent=history;
+        savedCityText.classList= "history";
+        historyEl.appendChild(savedCityText);
         
     });
-    // // WHY DOES IT LIST OVER AND OVER
-    // for (var i=0; i < searchHistory.length; i++){
-    //     searchHistory.forEach(function(history) {
-    //     var historyEl = document.createElement("a");
-    //     historyEl.innerHTML = history.city +"," + history.state;
-    //     historyEl.classList="list-item flex-row justify-space-between align-center"
-    //     historyEl.setAttribute("target", "_blank");   
-    //     historyList.appendChild(historyEl);
-        
-    // });
-
-        // var historyEl = document.createElement("a");
-        // history.innerHTML = history.city + ", " + history.state;
-
-        // historyList.appendChild(historyEl);
-    // } 
 
 }
 // saves city history to display under button (state not included)
 var savedHistory = function(){
     var cityHistory = JSON.parse (localStorage.getItem('history')) || [];
 
-    var city = cityInputEl.value.trim()
+    var city = cityInputEl.value.trim();
+    // var cityUpper=city.toUpperCase();
+    // city.setAttribute
 
     if (cityHistory.indexOf(city) === -1){
 
