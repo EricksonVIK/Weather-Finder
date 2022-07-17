@@ -11,7 +11,13 @@ var currentDayBlock = document.querySelector("#current");
 var fiveDayBlock = document.querySelector("#fiveDay");
 var currentTemp=document.querySelector("#temp");
 var currentimage=document.querySelector("#image");
-var cityName=document.querySelector("#cityName")
+var cityName=document.querySelector("#cityName");
+var currentWind=document.querySelector("#wind");
+var currentUvi=document.querySelector("#uvi");
+var iconHolder=document.querySelector("#icon");
+var iconC=document.querySelector("#wicon")
+
+
 // form submit function
 var submitCS = function(event){
     // prevent page from refreshing
@@ -37,10 +43,15 @@ var submitCS = function(event){
 var lat =[];
 var lon = [];
 var weatherArrCurr=[];
+var fiveDayW = [];
 // possible split
 var fiveDayArr=[];
+var cityNameC=[];
 var tempC=[];
+var windC=[];
+var uviC=[];
 var imageC=[];
+var feelsLikeC=[];
 // fetch functions
 var getLatLonInfo = function (city, state){
     console.log("called");
@@ -57,12 +68,10 @@ var getLatLonInfo = function (city, state){
                     console.log(data);
                    var latr = (data[0].lat);
                    var lonr = (data [0].lon);
-                //    console.log(latr);
-                //    console.log(lonr);
                    lat.push(latr)
                    lon.push(lonr)
-                //    console.log(latr);
-                //    console.log(lat);
+                   var city=(data[0].name)
+                   cityNameC.push(city)
                    getWeatherInfo(latr, lonr);
                 });
             } else {
@@ -93,9 +102,19 @@ var getWeatherInfo = function (lat, lon){
                 var temp=(data.current.temp)
                 console.log(temp)
                 tempC.push(temp);
-                var image=(data.weather)
-                imageC.push(image);
-
+                // var image=(data.weather[0].icon)
+                // imageC.push(image);
+                var wind=(data.current.wind_speed);
+                windC.push(wind);
+                var uvi=(data.current.uvi);
+                uviC.push(uvi);
+                var feelsLike = (data.current.feels_like);
+                feelsLikeC.push(feelsLike)
+                console.log(data.current.weather.icon)
+                // var weatherIconC=(data.current.weather.icon);
+                // weatherIconCurr.push(weatherIconC);
+                // http://openweathermap.org/img/w/10d.png
+                // var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png"
             })
         } else {
             alert("Error, unable to connect");
@@ -112,25 +131,15 @@ var currentDay = function (){
     if (weatherArrCurr.length === -1){
         alert("No information available!")
     }
-    // change to city upper?
-    cityName.innerHTML=cityInputEl.value.trim();
-    currentTemp.innerHTML=tempC[0]
-    // currentimage.innerHTML=imageC[0]
+    // only displays the first name searched!!! Bc it's in the latlon function
+    cityName.innerHTML=cityNameC[0];
+    currentTemp.innerHTML=tempC[0] + "&#176 " + "feels like " + feelsLikeC[0];
+    currentWind.innerHTML="Wind Speed " + windC[0];
+    currentUvi.innerHTML=uviC[0];
+    // how do i add the icon in??????
+    iconC.src="http://openweathermap.org/img/w/04n.png";
 
-    // current weather displayed
-    // currentDayBlock to append
-    // var cityName = document.createElement("div")
-    // cityNameArr=(weatherArrCurr[0].clouds);
-    // above is undefined, but console.log(weatherArrCurr[0].clouds will display in tools)
-    // do i need to convert the object into an array? if so, research how
-    // https://www.javascripttutorial.net/object/convert-an-object-to-an-array-in-javascript/
-    // cityName.innerHTML=cityNameArr;
-    // console.log("this is weatherArrCurr")
-    // console.log(weatherArrCurr)
-    // console.log("this is cityNameArr")
-    // console.log(cityNameArr)
-    // currentDayBlock.appendChild(cityName);
-    // currentDayBlock.innerHTML=weatherArrCurr[0]
+
 }
 
 var fiveDay = function(){
@@ -138,9 +147,10 @@ var fiveDay = function(){
     var daily = fiveDayArr
     for (var i=0; i < fiveDayArr.length; i++){
         var dayBlock = document.createElement("div");
-        dayBlock.innerHTML=daily;
+        dayBlock.setAttribute("id", "dayDiv");
         dayBlock.classList="list-item flex-row justify-space-between align-center"
         fiveDayBlock.appendChild(dayBlock);
+        dayBlock.innerHTML=(fiveDayArr[i]);
     };
 };
 
@@ -168,8 +178,6 @@ var savedHistory = function(){
     var cityHistory = JSON.parse (localStorage.getItem('history')) || [];
 
     var city = cityInputEl.value.trim();
-    // var cityUpper=city.toUpperCase();
-    // city.setAttribute
 
     if (cityHistory.indexOf(city) === -1){
 
