@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,400i,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">  
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather/0.0.2/weather.min.js"/>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather/0.0.2/weather.min.js"/> -->
     <link rel="stylesheet" href="./assets/css/style.css"/>
     <link rel="stylesheet" href="./assets/css/generalstyle.css">
     <title>Weather Dashboard</title>
@@ -27,24 +27,46 @@
                         <label class="city-label" for="city">
                             City
                         </label>
-                        <input name="city" id="city" type="text" class="user-input"/>
-                        <button type="submit" class="btn">
+                        <input name="city" id="city" type="text" class="user-input-city" style="text-transform:uppercase"/>
+                    </br>
+                        <label class="state-label" class="card-body">
+                            State
+                        </label>
+                        <input name="state" id="state" type="text" class="user-input-state" style="text-transform:uppercase"/>
+                        <button type="submit" class="btn" id="btn">
                             Get Weather
                         </button>
                     </form>
                 </div>
-                <div class="searchlist">
+                <div class="searchlist" id="searchlist">
                     <!-- generate previous city w js and local -->
                 </div>
             </div>
             <div class="col-12 col-md-8">
-               <div>
-                    <!-- generate current city weather block -->
-                    Test
+               <div class="current" id="current">
+                    <!-- change to a and append span elements -->
+                    <!-- from input -->
+                    <div>
+                        <div id="cityName"></div>
+                        <!-- array.weather.icon -->
+                        <div id="icon">
+                            <img id="wicon" src="" alt="Weather icon">
+                        </div>
+                    </div>
+                    <!-- array.temp -->
+                    <h2 id="temp"></h2>
+                    <!-- array.wind -->
+                    <h2 id="wind"></h2>
+                    <!-- array.uvi -->
+                    <h2 id="uvi"></h2>
                </div>
-               <div>
+               <div class="fiveDayHolder" id="fiveDayHolder">
+                    <h3 class="subtitle">
+                        5-Day Forcast:
+                    </h3>
+                    <div class="fiveDay" id="fiveDay">
                     <!-- generate 5 day forcast -->
-                    Test
+                    </div>
                </div>
             </div>
         </main>
