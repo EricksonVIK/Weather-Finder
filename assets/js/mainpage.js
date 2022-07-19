@@ -102,15 +102,15 @@ var getWeatherInfo = function (lat, lon){
                 var temp=(data.current.temp)
                 console.log(temp)
                 tempC.push(temp);
-                // var image=(data.weather[0].icon)
-                // imageC.push(image);
+                var image=(data.current.weather.icon)
+                imageC.push(image);
                 var wind=(data.current.wind_speed);
                 windC.push(wind);
                 var uvi=(data.current.uvi);
                 uviC.push(uvi);
                 var feelsLike = (data.current.feels_like);
                 feelsLikeC.push(feelsLike)
-                console.log(data.current.weather.icon)
+                console.log(data.current.weather[0].icon)
                 // var weatherIconC=(data.current.weather.icon);
                 // weatherIconCurr.push(weatherIconC);
                 // http://openweathermap.org/img/w/10d.png
@@ -137,7 +137,9 @@ var currentDay = function (){
     currentWind.innerHTML="Wind Speed " + windC[0];
     currentUvi.innerHTML=uviC[0];
     // how do i add the icon in??????
-    iconC.src="http://openweathermap.org/img/w/04n.png";
+    var iconText = weatherArrCurr[0].weather[0].icon;
+
+    iconC.src="http://openweathermap.org/img/w/" + iconText + ".png";
 
 
 }
@@ -150,7 +152,7 @@ var fiveDay = function(){
         dayBlock.setAttribute("id", "dayDiv");
         dayBlock.classList="list-item flex-row justify-space-between align-center"
         fiveDayBlock.appendChild(dayBlock);
-        dayBlock.innerHTML=(fiveDayArr[i]);
+        dayBlock.innerHTML=(fiveDayArr[i].clouds);
     };
 };
 
