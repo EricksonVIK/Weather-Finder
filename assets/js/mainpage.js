@@ -43,7 +43,7 @@ var submitCS = function(event){
 var lat =[];
 var lon = [];
 var weatherArrCurr=[];
-var fiveDayW = [];
+// var fiveDayW = [];
 // possible split
 var fiveDayArr=[];
 var cityNameC=[];
@@ -52,7 +52,9 @@ var windC=[];
 var uviC=[];
 var imageC=[];
 var feelsLikeC=[];
+
 // fetch functions
+// may try to add everything into 1 function
 var getLatLonInfo = function (city, state){
     console.log("called");
     // format weather api
@@ -66,8 +68,8 @@ var getLatLonInfo = function (city, state){
                 response.json().then(function(data){
                     console.log("this is latlon") 
                     console.log(data);
-                   var latr = (data[0].lat);
-                   var lonr = (data [0].lon);
+                   var latr = data[0].lat;
+                   var lonr = data[0].lon;
                    lat.push(latr)
                    lon.push(lonr)
                    var city=(data[0].name)
@@ -80,9 +82,11 @@ var getLatLonInfo = function (city, state){
             
         });
 }
-
-var getWeatherInfo = function (lat, lon){
-    console.log("this has been called");
+// function test(){
+//     getWeatherInfo();
+// }
+function getWeatherInfo (lat, lon){
+    console.log(lat, lon);
     var apiUrl = "https://api.openweathermap.org/data/3.0/onecall?lat=" + lat + "&lon=" + lon + "&appid=0714ff4099a70754b88ad38fab16cccd&units=imperial"
     fetch (apiUrl)
     .then(function (response){
@@ -125,7 +129,7 @@ var getWeatherInfo = function (lat, lon){
 }
 
 // display current day
-var currentDay = function (){
+function currentDay (){
     // catching a no info error
     // currentDayBlock.innerHTML="";
     if (weatherArrCurr.length === -1){
@@ -133,26 +137,30 @@ var currentDay = function (){
     }
     // only displays the first name searched!!! Bc it's in the latlon function
     cityName.innerHTML=cityNameC[0];
-    currentTemp.innerHTML=tempC[0] + "&#176 " + "feels like " + feelsLikeC[0];
-    currentWind.innerHTML="Wind Speed " + windC[0];
+    currentTemp.innerHTML= tempC[0] + "&#176 " + "feels like " + feelsLikeC[0];
+    currentWind.innerHTML= "Wind Speed " + windC[0];
     currentUvi.innerHTML=uviC[0];
-    // how do i add the icon in??????
+
     var iconText = weatherArrCurr[0].weather[0].icon;
 
-    iconC.src="http://openweathermap.org/img/w/" + iconText + ".png";
-
+    // iconC.src="http://openweathermap.org/img/w/" + iconText + ".png";
+    // template literal
+    iconC.setAttribute("src", `http://openweathermap.org/img/w/${iconText}.png`)
 
 }
 
-var fiveDay = function(){
-    // fiveDayBlock.innerHTML="";
-    var daily = fiveDayArr
-    for (var i=0; i < fiveDayArr.length; i++){
-        var dayBlock = document.createElement("div");
-        dayBlock.setAttribute("id", "dayDiv");
-        dayBlock.classList="list-item flex-row justify-space-between align-center"
+function fiveDay (){
+    var dayBlock = document.createElement("div");
+    dayBlock.setAttribute("id", "dayDiv");
+    dayBlock.classList="list-item flex-row justify-space-between align-center"
+    console.log("this is dayBlock");
+    console.log(dayBlock);
+    // for loop or for each?
+    // var daily = fiveDayArr
+    // 5 for the number of loops  --- i representes index
+    for (var i=0; i < 5; i++){
         fiveDayBlock.appendChild(dayBlock);
-        dayBlock.innerHTML=(fiveDayArr[i].clouds);
+        dayBlock.textContent=(fiveDayArr[i].clouds);
     };
 };
 
@@ -201,3 +209,14 @@ displayHistory();
 userFormEl.addEventListener("submit", submitCS);
 
 
+// inside click function - 
+// fetch (apidummy)
+// .then (function(response){
+    // var lat  and var lon
+    // fetch (2nd api)
+    // .then (function(data){
+    // all of the stuff to display
+    // })
+// })
+
+// this research
