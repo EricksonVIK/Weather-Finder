@@ -23,8 +23,12 @@ var currentHumid=document.querySelector("#humidity")
 var submitCS = function(event){
     // prevent page from refreshing
     event.preventDefault();
-
-    savedHistory();
+    if (cityInputEl.value== "" || cityInputEl.value ==null) {
+        alert('Please enter valid city!')
+        return false
+      } else {
+        savedHistory()
+      };
     displayHistory();
     // get value from input
     var city = cityInputEl.value.trim();
@@ -65,14 +69,10 @@ function getWeather (city){
     // console.log (currentWeather)
     // console.log (forecastWeather)
     displaycurrentDay(currentWeather);
-    displayFiveDay(forecastWeather);
+    displayFiveDay(forecastWeather);fiveDayBlock
 
   })
-  if (city){
-    cityInputEl.value="";
-  } else {
-    alert('Please enter valid city!')
-  }
+  cityInputEl.innerHTML="";
 };
 
 // display current day (not displaying name)
@@ -84,6 +84,10 @@ function displaycurrentDay (currentWeather) {
     if (current.length === -1){
         alert("No information available!")
     }
+    // city displayed
+    var cityNameEl = document.createElement('h4')
+    cityNameEl.innerHTML=cityInputEl.value.trim()
+    cityName.appendChild(cityNameEl)
     // create date and format
     var date = new Date (0);
     date.setUTCSeconds(currentWeather.dt)
@@ -220,7 +224,7 @@ var savedHistory = function(){
     var cityHistory = JSON.parse (localStorage.getItem('history')) || [];
 
     var city = cityInputEl.value.trim();
-
+    // do i add the null value reject here?
     if (cityHistory.indexOf(city) === -1){
 
 
