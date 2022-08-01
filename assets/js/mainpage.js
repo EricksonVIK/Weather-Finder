@@ -108,13 +108,12 @@ function displaycurrentDay (currentWeather) {
 function displayFiveDay (forecastWeather){
     console.log('hit forecast');
     console.log(forecastWeather)
-    // // for loop or for each?
-    // // var daily = fiveDayArr
-    // // 5 for the number of loops  --- i representes index
-    for (var i=0; i < 5; i++){        
+  
+
+    for (var i=1; i < 6; i++){        
         var dayBlock = document.createElement("div");
         dayBlock.setAttribute("id", "dayDiv");
-        dayBlock.classList="flex-row justify-space-between align-center"
+        dayBlock.classList="flex-column justify-space-between"
         fiveDayBlock.appendChild(dayBlock);
         // create element for date
         var forecastDate= document.createElement('h4');
