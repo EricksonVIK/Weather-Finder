@@ -23,6 +23,7 @@ var currentHumid=document.querySelector("#humidity")
 var submitCS = function(event){
     // prevent page from refreshing
     event.preventDefault();
+
     savedHistory();
     displayHistory();
     // get value from input
@@ -76,7 +77,8 @@ function getWeather (city){
 
 // display current day (not displaying name)
 function displaycurrentDay (currentWeather) {
-    // currentDayBlock.innerHTML="";
+    // clear out the date icon holder
+    dateIconHolder.innerHTML="";
     console.log('hit')
     console.log(currentWeather)
     if (current.length === -1){
