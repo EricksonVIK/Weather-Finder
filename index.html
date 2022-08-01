@@ -28,11 +28,6 @@
                             City
                         </label>
                         <input name="city" id="city" type="text" class="user-input-city" style="text-transform:uppercase"/>
-                    </br>
-                        <label class="state-label" class="card-body">
-                            State
-                        </label>
-                        <input name="state" id="state" type="text" class="user-input-state" style="text-transform:uppercase"/>
                         <button type="submit" class="btn" id="btn">
                             Get Weather
                         </button>
@@ -48,23 +43,20 @@
                     <!-- from input -->
                     <div>
                         <div id="cityName"></div>
-                        <!-- array.weather.icon -->
                         <div id="icon">
-                            <img id="wicon" src="" alt="Weather icon">
+                            <!-- adding img with icon src -->
                         </div>
                     </div>
-                    <!-- array.temp -->
                     <h2 id="temp"></h2>
-                    <!-- array.wind -->
+                    <h2 id="humidity"></h2>
                     <h2 id="wind"></h2>
-                    <!-- array.uvi -->
                     <h2 id="uvi"></h2>
                </div>
                <div class="fiveDayHolder" id="fiveDayHolder">
                     <h3 class="subtitle">
                         5-Day Forcast:
                     </h3>
-                    <div class="fiveDay" id="fiveDay">
+                    <div class="fiveDay flex-row justify-space-between align-center" id="fiveDay">
                     <!-- generate 5 day forcast -->
                     </div>
                </div>

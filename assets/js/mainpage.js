@@ -1,12 +1,15 @@
-// create variables for dom's
-var apiKey ="0714ff4099a70754b88ad38fab16cccd";
+// create variables 
+// api key for fetch
+const apiKey ="0714ff4099a70754b88ad38fab16cccd";
+
+// Dom variables
 var userFormEl = document.querySelector("#search-form");
 var cityInputEl = document.querySelector("#city");
 var submitBtn = document.querySelector("#btn");
 var city = cityInputEl.value.trim();
 // var cityUpper=city.toUpperCase();
-var stateInputEl = document.querySelector("#state");
-var state = stateInputEl.value.trim();
+// var stateInputEl = document.querySelector("#state");
+// var state = stateInputEl.value.trim();
 var historyList = document.querySelector("#searchlist");
 var currentDayBlock = document.querySelector("#current");
 var fiveDayBlock = document.querySelector("#fiveDay");
@@ -16,7 +19,7 @@ var cityName=document.querySelector("#cityName");
 var currentWind=document.querySelector("#wind");
 var currentUvi=document.querySelector("#uvi");
 var iconHolder=document.querySelector("#icon");
-var iconC=document.querySelector("#wicon")
+var currentHumid=document.querySelector("#humidity")
 
 
 // form submit function
@@ -28,8 +31,7 @@ var submitCS = function(event){
     // get value from input
     // console.log(event) - worked
     var city = cityInputEl.value.trim();
-    var state = stateInputEl.value.trim();
-    //var geoUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "," + state + ",USA&limit=1&appid=0714ff4099a70754b88ad38fab16cccd"
+    // var state = stateInputEl.value.trim();
     var geoUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial` ;
     
   fetch(geoUrl)
@@ -56,230 +58,116 @@ var submitCS = function(event){
 
   }). then( function(data){
     console.log(data);
-
- console.log(   data.current.weather[0].description);
-
-
-
+    console.log(data.current)
+    console.log(data.daily)
+    const currentWeather = data.current;
+    const forecastWeather = data.daily;
+    console.log (currentWeather)
+    console.log (forecastWeather)
+    displaycurrentDay(currentWeather);
+    displayFiveDay(forecastWeather);
 
   })
-
-
-
-
-
-
-//     fetch(geoUrl)
-//         .then(function(response){
-//             response.json().then(function(data){
-//                 console.log("this is latlon") 
-//                 console.log(data);
-//                var latr = data.coord.lat;
-//                var lonr = data.coord.lon;
-//             //    lat.push(latr)
-//             //    lon.push(lonr)
-//             console.log(latr, lonr);
-//             })
-//         })
-        
-// var apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${latr}&lon=${lonr}&exclude=minutely,hourly&appid=${apiKey}&units=imperial`
-// fetch (apiUrl)
-// .then(function (response){
-//     if (response.ok){
-//     //     // console.log(response);worked
-//     //     return response.json();
-//     // }
-
-
-
-
-//         response.json().then(function(data){
-//             console.log("This is getWeather data")
-//             console.log(data);
-//             var currentWeather= (data.current)
-//             console.log("this is current weather")
-//             console.log(currentWeather)
-//             weatherArrCurr.push(currentWeather);
-//             var fiveDayWeather= (data.daily);
-//             console.log("this is daily");
-//             console.log(fiveDayWeather);
-//             fiveDayArr.push(fiveDayWeather);
-//             var temp=(data.current.temp)
-//             console.log(temp)
-//             tempC.push(temp);
-//             var image=(data.current.weather.icon)
-//             imageC.push(image);
-//             var wind=(data.current.wind_speed);
-//             windC.push(wind);
-//             var uvi=(data.current.uvi);
-//             uviC.push(uvi);
-//             var feelsLike = (data.current.feels_like);
-//             feelsLikeC.push(feelsLike)
-//             console.log(data.current.weather[0].icon)
-//             // var weatherIconC=(data.current.weather.icon);
-//             // weatherIconCurr.push(weatherIconC);
-//             // http://openweathermap.org/img/w/10d.png
-//             // var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png"
-//         })
-//     } else {
-//         alert("Error, unable to connect");
-//     };
-// })
-
-    // if (city, state){
-    //     // getLatLonInfo(city, state)
-    //     cityInputEl.value = "";
-    //     stateInputEl.value = "";
-    // }else{
-    //     alert("Please enter valid city and state.");
-    // };
+  if (city){
+    cityInputEl.value="";
+  } else {
+    alert('Please enter valid city!')
+  }
 };
 
-
-// Arrays
-var lat =[];
-var lon = [];
-var weatherArrCurr=[];
-// var fiveDayW = [];
-// possible split
-var fiveDayArr=[];
-var cityNameC=[];
-var tempC=[];
-var windC=[];
-var uviC=[];
-var imageC=[];
-var feelsLikeC=[];
-
-// fetch functions
-// may try to add everything into 1 function
-// var getLatLonInfo = function (city, state){
-//     console.log("called");
-//     // format weather api
-//     // geo code to get long and lat
-//     // http://api.openweathermap.org/geo/1.0/direct?q=durham,nc,USA&limit=1&appid=0714ff4099a70754b88ad38fab16cccd
-//     var geoUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "," + state + ",USA&limit=1&appid=0714ff4099a70754b88ad38fab16cccd"
-//     fetch(geoUrl)
-//         .then(function(response){
-//             if (response.ok){
-//                 // console.log(response);worked
-//                 response.json().then(function(data){
-//                     console.log("this is latlon") 
-//                     console.log(data);
-//                    var latr = data[0].lat;
-//                    var lonr = data[0].lon;
-//                    lat.push(latr)
-//                    lon.push(lonr)
-//                    var city=(data[0].name)
-//                    cityNameC.push(city)
-//                    getWeatherInfo(latr, lonr);
-//                 });
-//             } else {
-//                 alert("City Not Found");
-//             };
-            
-//         });
-// }
-// function test(){
-//     getWeatherInfo();
-// }
-// function getWeatherInfo (lat, lon){
-//     console.log(lat, lon);
-//     var apiUrl = "https://api.openweathermap.org/data/3.0/onecall?lat=" + lat + "&lon=" + lon + "&appid=0714ff4099a70754b88ad38fab16cccd&units=imperial"
-//     fetch (apiUrl)
-//     .then(function (response){
-//         if (response.ok){
-//             // console.log(response);worked
-//             response.json().then(function(data){
-//                 console.log("This is getWeather data")
-//                 console.log(data);
-//                 var currentWeather= (data.current)
-//                 console.log("this is current weather")
-//                 console.log(currentWeather)
-//                 weatherArrCurr.push(currentWeather);
-//                 var fiveDayWeather= (data.daily);
-//                 console.log("this is daily");
-//                 console.log(fiveDayWeather);
-//                 fiveDayArr.push(fiveDayWeather);
-//                 var temp=(data.current.temp)
-//                 console.log(temp)
-//                 tempC.push(temp);
-//                 var image=(data.current.weather.icon)
-//                 imageC.push(image);
-//                 var wind=(data.current.wind_speed);
-//                 windC.push(wind);
-//                 var uvi=(data.current.uvi);
-//                 uviC.push(uvi);
-//                 var feelsLike = (data.current.feels_like);
-//                 feelsLikeC.push(feelsLike)
-//                 console.log(data.current.weather[0].icon)
-//                 // var weatherIconC=(data.current.weather.icon);
-//                 // weatherIconCurr.push(weatherIconC);
-//                 // http://openweathermap.org/img/w/10d.png
-//                 // var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png"
-//             })
-//         } else {
-//             alert("Error, unable to connect");
-//         };
-    // })
-//     currentDay();
-//     fiveDay();
-// }
-
+var currentWeather = "";
 // display current day
-// function currentDay (){
-//     // catching a no info error
-//     // currentDayBlock.innerHTML="";
-//     if (weatherArrCurr.length === -1){
-//         alert("No information available!")
-//     }
-//     // only displays the first name searched!!! Bc it's in the latlon function
-//     cityName.innerHTML=cityNameC[0];
-//     currentTemp.innerHTML= tempC[0] + "&#176 " + "feels like " + feelsLikeC[0];
-//     currentWind.innerHTML= "Wind Speed " + windC[0];
-//     currentUvi.innerHTML=uviC[0];
+function displaycurrentDay (currentWeather) {
+    // catching a no info error
+    console.log('hit')
+    console.log(currentWeather)
+    // currentDayBlock.innerHTML="";
+    if (current.length === -1){
+        alert("No information available!")
+    }
+    cityName.innerHTML=cityInputEl.value.trim();
+    var date = new Date (0);
+    date.setUTCSeconds(currentWeather.dt)
+    date = date.toLocaleDateString("en-US");
+    console.log("today's date" + date)
+    cityName.innerHTML=date
+    var iconDisplay = document.createElement("img")
+    iconDisplay.classList = "icon"
+    iconDisplay.src = "http://openweathermap.org/img/w/" + currentWeather.weather[0].icon + ".png"
+    iconHolder.appendChild(iconDisplay);
+    currentTemp.innerHTML= "Temp: " + currentWeather.temp + "&#176 " + "feels like " + currentWeather.feels_like + "&#176 ";
+    currentHumid.innerHTML = "Humidity: " + currentWeather.humidity + "%";
+    currentWind.innerHTML= "Wind Speed: " + currentWeather.wind_speed + " mph";
+    currentUvi.innerHTML= "UVI: " + currentWeather.uvi;
 
-//     var iconText = weatherArrCurr[0].weather[0].icon;
+    // // template literal
+    // iconC.setAttribute("src", `http://openweathermap.org/img/w/${iconText}.png`)
+    
+}
 
-    // iconC.src="http://openweathermap.org/img/w/" + iconText + ".png";
-    // template literal
-//     iconC.setAttribute("src", `http://openweathermap.org/img/w/${iconText}.png`)
-
-// }
-
-// function fiveDay (){
-//     var dayBlock = document.createElement("div");
-//     dayBlock.setAttribute("id", "dayDiv");
-//     dayBlock.classList="list-item flex-row justify-space-between align-center"
-//     console.log("this is dayBlock");
-//     console.log(dayBlock);
-//     // for loop or for each?
-//     // var daily = fiveDayArr
-//     // 5 for the number of loops  --- i representes index
-//     for (var i=0; i < 5; i++){
-//         fiveDayBlock.appendChild(dayBlock);
-//         dayBlock.textContent=(fiveDayArr[i].clouds);
-//     };
-// };
+function displayFiveDay (forecastWeather){
+    console.log('hit forecast');
+    console.log(forecastWeather)
+    // // for loop or for each?
+    // // var daily = fiveDayArr
+    // // 5 for the number of loops  --- i representes index
+    for (var i=0; i < 5; i++){        
+        var dayBlock = document.createElement("div");
+        dayBlock.setAttribute("id", "dayDiv");
+        dayBlock.classList="flex-row justify-space-between align-center"
+        fiveDayBlock.appendChild(dayBlock);
+        // create element for date
+        var forecastDate= document.createElement('h4');
+        var dateNew = new Date (0);
+        dateNew.setUTCSeconds(forecastWeather[i].dt)
+        dateNew = dateNew.toLocaleDateString("en-US");
+        forecastDate.innerHTML=dateNew
+        console.log("this is the date" + dateNew)
+        dayBlock.appendChild(forecastDate)
+        // create element for icon
+        var forecastIcon = document.createElement('img')
+        forecastIcon.src= `http://openweathermap.org/img/wn/${forecastWeather[i].weather[0].icon}.png`
+        forecastIcon.innerHTML=forecastWeather[i].weather[0].icon
+        console.log(forecastIcon)
+        dayBlock.appendChild(forecastIcon);
+        // create element for temp
+        var forecastTemp = document.createElement('p')
+        forecastTemp.innerHTML=forecastWeather[i].temp.day
+        dayBlock.appendChild(forecastTemp)
+        // create element for wind
+        var forecastWind = document.createElement('p')
+        forecastWind.innerHTML=forecastWeather[i].wind_speed + "MPH"
+        dayBlock.appendChild(forecastWind);
+        // create element for humidity
+        var forecastHumidity = document.createElement ('p')
+        forecastHumidity.innerHTML=forecastWeather[i].humidity + "%"
+        dayBlock.appendChild(forecastHumidity)
+        // create element for uv
+        var forecastUv = document.createElement('p')
+        forecastUv.innerHTML=forecastWeather[i].uvi
+        dayBlock.appendChild(forecastUv)
+        
+        // dayBlock.innerHTML=(forecastWeather[i].clouds);
+    };
+};
 
 // // account for errors
-// var displayHistory= function (){
-//     var searchHistory = JSON.parse(localStorage.getItem('history')) || [];
-//     historyList.innerHTML="";
-//     searchHistory.forEach(function(history) {
-//         var historyEl = document.createElement("a");
-//         // historyEl.innerHTML = history;
-//         historyEl.classList="list-item flex-row justify-space-between align-center"
-//         // set an attribute to click and resend - Does that need to be another function?
-//         historyEl.setAttribute("target", "_blank");   
-//         historyList.appendChild(historyEl);
-//         var savedCityText = document.createElement("span");
-//         savedCityText.textContent=history;
-//         savedCityText.classList= "history";
-//         historyEl.appendChild(savedCityText);
+var displayHistory= function (){
+    var searchHistory = JSON.parse(localStorage.getItem('history')) || [];
+    historyList.innerHTML="";
+    searchHistory.forEach(function(history) {
+        var historyEl = document.createElement("a");
+        historyEl.classList="list-item flex-row justify-space-between align-center"
+        // set an attribute to click and resend - Does that need to be another function?
+        historyEl.setAttribute("target", "_blank");   
+        historyList.appendChild(historyEl);
+        var savedCityText = document.createElement("span");
+        savedCityText.textContent=history;
+        savedCityText.classList= "history";
+        historyEl.appendChild(savedCityText);
         
-//     });
-
-// }
+    });
+}
 // saves city history to display under button (state not included)
 var savedHistory = function(){
     var cityHistory = JSON.parse (localStorage.getItem('history')) || [];
@@ -291,7 +179,6 @@ var savedHistory = function(){
 
             cityHistory.push(
             city
-            // state: stateInputEl.value.trim(),
         );
 
     }
@@ -300,70 +187,8 @@ var savedHistory = function(){
 };
 
 // displays local on start up
-// displayHistory();
+displayHistory();
 
 // starts the chain of events to display weather info
 userFormEl.addEventListener("submit", submitCS);
 
-
-// inside click function - 
-// fetch (apidummy)
-// .then (function(response){
-    // var lat  and var lon
-    // fetch (2nd api)
-    // .then (function(data){
-    // all of the stuff to display
-    // })
-// })
-// var geoUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "," + state + ",USA&limit=1&appid=0714ff4099a70754b88ad38fab16cccd"
-//     fetch(geoUrl)
-//         .then(function(response){
-//             response.json().then(function(data){
-//                 console.log("this is latlon") 
-//                 console.log(data);
-//                var latr = data[0].lat;
-//                var lonr = data[0].lon;
-//                lat.push(latr)
-//                lon.push(lonr)
-//             })
-//         })
-// var apiUrl = "https://api.openweathermap.org/data/3.0/onecall?lat=" + lat + "&lon=" + lon + "&appid=0714ff4099a70754b88ad38fab16cccd&units=imperial"
-// fetch (apiUrl)
-// .then(function (response){
-//     if (response.ok){
-//         // console.log(response);worked
-//         response.json().then(function(data){
-//             console.log("This is getWeather data")
-//             console.log(data);
-//             var currentWeather= (data.current)
-//             console.log("this is current weather")
-//             console.log(currentWeather)
-//             weatherArrCurr.push(currentWeather);
-//             var fiveDayWeather= (data.daily);
-//             console.log("this is daily");
-//             console.log(fiveDayWeather);
-//             fiveDayArr.push(fiveDayWeather);
-//             var temp=(data.current.temp)
-//             console.log(temp)
-//             tempC.push(temp);
-//             var image=(data.current.weather.icon)
-//             imageC.push(image);
-//             var wind=(data.current.wind_speed);
-//             windC.push(wind);
-//             var uvi=(data.current.uvi);
-//             uviC.push(uvi);
-//             var feelsLike = (data.current.feels_like);
-//             feelsLikeC.push(feelsLike)
-//             console.log(data.current.weather[0].icon)
-//             // var weatherIconC=(data.current.weather.icon);
-//             // weatherIconCurr.push(weatherIconC);
-//             // http://openweathermap.org/img/w/10d.png
-//             // var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png"
-//         })
-//     } else {
-//         alert("Error, unable to connect");
-//     };
-// })
-    
-
-// this research
