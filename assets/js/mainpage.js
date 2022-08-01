@@ -15,7 +15,7 @@ var currentimage=document.querySelector("#image");
 var cityName=document.querySelector("#cityName");
 var currentWind=document.querySelector("#wind");
 var currentUvi=document.querySelector("#uvi");
-var iconHolder=document.querySelector("#icon");
+var dateIconHolder=document.querySelector("#dateicon");
 var currentHumid=document.querySelector("#humidity")
 
 
@@ -23,7 +23,6 @@ var currentHumid=document.querySelector("#humidity")
 var submitCS = function(event){
     // prevent page from refreshing
     event.preventDefault();
-
     savedHistory();
     displayHistory();
     // get value from input
@@ -77,39 +76,67 @@ function getWeather (city){
 
 // display current day (not displaying name)
 function displaycurrentDay (currentWeather) {
-    // catching a no info error
+    // currentDayBlock.innerHTML="";
     console.log('hit')
     console.log(currentWeather)
     if (current.length === -1){
         alert("No information available!")
     }
-    // cityName.innerHTML=cityInputEl.value.trim() + date;
+    // create date and format
     var date = new Date (0);
     date.setUTCSeconds(currentWeather.dt)
     date = date.toLocaleDateString("en-US");
     console.log("today's date" + date)
-    cityName.innerHTML=cityInputEl.value.trim() + date
+    // create div for date and icon
+    var dateIconBlock =document.createElement('div')
+    // create date element h4
+    var dateEl= document.createElement('h4')
+    dateEl.innerHTML=date
+    dateIconBlock.appendChild(dateEl)
+    // create icon element
     var iconDisplay = document.createElement("img")
     iconDisplay.classList = "icon"
     iconDisplay.src = "http://openweathermap.org/img/w/" + currentWeather.weather[0].icon + ".png"
-    iconHolder.appendChild(iconDisplay);
+    dateIconBlock.appendChild(iconDisplay);
+
+    dateIconHolder.appendChild(dateIconBlock)
+    // dateIconBlock.classList="flex-column diblock"
+    // Temp posted
     currentTemp.innerHTML= "Temp: " + currentWeather.temp + "&#176 " + "feels like " + currentWeather.feels_like + "&#176 ";
+    // Humidity posted
     currentHumid.innerHTML = "Humidity: " + currentWeather.humidity + "%";
+    // Wind Speed posted
     currentWind.innerHTML= "Wind Speed: " + currentWeather.wind_speed + " mph";
+    // UV Index posted with color function
     currentUvi.innerHTML= "UV Index: " + currentWeather.uvi;
-    
+    currentUvi.style.color = "black"
+    // function to change UV index color
+    if (currentWeather.uvi < 3) {
+        currentUvi.style.background = "green"
+        currentUvi.style.color= "white"
+    } else if (currentWeather.uvi < 6 ){
+        currentUvi.style.background = "yellow"
+        currentUvi.style.color= "gray"
+    } else if (currentWeather.uvi <8){
+        currentUvi.style.background = "orange"
+        currentUvi.style.color= "white"
+    } else if (currentWeather.uvi <11) {
+        currentUvi.style.background = "red"
+        currentUvi.style.color= "white"
+    }
 }
 
 function displayFiveDay (forecastWeather){
     console.log('hit forecast');
     console.log(forecastWeather)
-  
-
+    fiveDayBlock.innerHTML="";
     for (var i=1; i < 6; i++){        
         // create parent Div and Append
         var dayBlock = document.createElement("div");
         dayBlock.setAttribute("id", "dayDiv");
         dayBlock.classList="flex-column dayDiv"
+        dayBlock.style.border = "black 3px solid"
+        dayBlock.style.borderRadius = "5%"
         fiveDayBlock.appendChild(dayBlock);
 
         // create date and icon div and appent
@@ -145,13 +172,27 @@ function displayFiveDay (forecastWeather){
 
         // create element for humidity
         var forecastHumidity = document.createElement ('p')
-        forecastHumidity.innerHTML="Humidity %: " + forecastWeather[i].humidity + "%"
+        forecastHumidity.innerHTML="Humidity: " + forecastWeather[i].humidity + "%"
         dayBlock.appendChild(forecastHumidity)
 
         // create element for uv
         var forecastUv = document.createElement('p')
         forecastUv.innerHTML="UV Index: " + forecastWeather[i].uvi
         dayBlock.appendChild(forecastUv)
+            // function to change UV index color
+        if (forecastWeather[i].uvi < 3) {
+            forecastUv.style.background = "green"
+            forecastUv.style.color = "white"
+        } else if (forecastWeather[i].uvi < 6 ){
+            forecastUv.style.background = "yellow"
+            forecastUv.style.color= "gray"
+        } else if (forecastWeather[i].uvi <8){
+            forecastUv.style.background = "orange"
+        } else if (forecastWeather[i].uvi <11) {
+            forecastUv.style.background = "red"
+            forecastUv.style.color = "white"
+        }
+
         
     };
 };

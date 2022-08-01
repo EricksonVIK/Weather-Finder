@@ -7,6 +7,15 @@
     --primary-border: black, solid, 5px;
 }
 
+.hero {
+    flex-wrap: wrap;
+}
+.title {
+    background: var(--secondary-background);
+    color: var(--secondary-text);
+    justify-content: center;
+}
+
 .history{
     text-transform: uppercase;
 }
