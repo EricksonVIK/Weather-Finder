@@ -98,7 +98,7 @@ function displaycurrentDay (currentWeather) {
     currentTemp.innerHTML= "Temp: " + currentWeather.temp + "&#176 " + "feels like " + currentWeather.feels_like + "&#176 ";
     currentHumid.innerHTML = "Humidity: " + currentWeather.humidity + "%";
     currentWind.innerHTML= "Wind Speed: " + currentWeather.wind_speed + " mph";
-    currentUvi.innerHTML= "UVI: " + currentWeather.uvi;
+    currentUvi.innerHTML= "UV Index: " + currentWeather.uvi;
 
     // // template literal
     // iconC.setAttribute("src", `http://openweathermap.org/img/w/${iconText}.png`)
@@ -113,8 +113,11 @@ function displayFiveDay (forecastWeather){
     for (var i=1; i < 6; i++){        
         var dayBlock = document.createElement("div");
         dayBlock.setAttribute("id", "dayDiv");
-        dayBlock.classList="flex-column justify-space-between"
+        dayBlock.classList="flex-column dayDiv"
         fiveDayBlock.appendChild(dayBlock);
+        var dateIconEl = document.createElement("div")
+        dateIconEl.classList="flex-row justify-space-between"
+        dayBlock.appendChild(dateIconEl)
         // create element for date
         var forecastDate= document.createElement('h4');
         var dateNew = new Date (0);
@@ -122,28 +125,28 @@ function displayFiveDay (forecastWeather){
         dateNew = dateNew.toLocaleDateString("en-US");
         forecastDate.innerHTML=dateNew
         console.log("this is the date" + dateNew)
-        dayBlock.appendChild(forecastDate)
+        dateIconEl.appendChild(forecastDate)
         // create element for icon
         var forecastIcon = document.createElement('img')
         forecastIcon.src= `http://openweathermap.org/img/wn/${forecastWeather[i].weather[0].icon}.png`
         forecastIcon.innerHTML=forecastWeather[i].weather[0].icon
         console.log(forecastIcon)
-        dayBlock.appendChild(forecastIcon);
+        dateIconEl.appendChild(forecastIcon);
         // create element for temp
         var forecastTemp = document.createElement('p')
-        forecastTemp.innerHTML=forecastWeather[i].temp.day
+        forecastTemp.innerHTML="Temp: " + forecastWeather[i].temp.day + "&#176 "
         dayBlock.appendChild(forecastTemp)
         // create element for wind
         var forecastWind = document.createElement('p')
-        forecastWind.innerHTML=forecastWeather[i].wind_speed + "MPH"
+        forecastWind.innerHTML="Wind Speed: " + forecastWeather[i].wind_speed + "mph"
         dayBlock.appendChild(forecastWind);
         // create element for humidity
         var forecastHumidity = document.createElement ('p')
-        forecastHumidity.innerHTML=forecastWeather[i].humidity + "%"
+        forecastHumidity.innerHTML="Humidity %: " + forecastWeather[i].humidity + "%"
         dayBlock.appendChild(forecastHumidity)
         // create element for uv
         var forecastUv = document.createElement('p')
-        forecastUv.innerHTML=forecastWeather[i].uvi
+        forecastUv.innerHTML="UV Index: " + forecastWeather[i].uvi
         dayBlock.appendChild(forecastUv)
         
         // dayBlock.innerHTML=(forecastWeather[i].clouds);

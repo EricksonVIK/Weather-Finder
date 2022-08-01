@@ -10,3 +10,16 @@
 .history{
     text-transform: uppercase;
 }
+
+.subtitle {
+    border: black, solid, 15px;
+    border-radius: 10%;
+    font-size: larger;
+    justify-content: center;
+}
+.dayDiv{
+    border: solid, black, 5px;
+    margin: 5px;
+    padding: 5px;
+    background-color: var(--secondary-background);
+}
