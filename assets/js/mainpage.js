@@ -7,9 +7,6 @@ var userFormEl = document.querySelector("#search-form");
 var cityInputEl = document.querySelector("#city");
 var submitBtn = document.querySelector("#btn");
 var city = cityInputEl.value.trim();
-// var cityUpper=city.toUpperCase();
-// var stateInputEl = document.querySelector("#state");
-// var state = stateInputEl.value.trim();
 var historyList = document.querySelector("#searchlist");
 var currentDayBlock = document.querySelector("#current");
 var fiveDayBlock = document.querySelector("#fiveDay");
@@ -18,7 +15,7 @@ var currentimage=document.querySelector("#image");
 var cityName=document.querySelector("#cityName");
 var currentWind=document.querySelector("#wind");
 var currentUvi=document.querySelector("#uvi");
-var iconHolder=document.querySelector("#icon");
+var dateIconHolder=document.querySelector("#dateicon");
 var currentHumid=document.querySelector("#humidity")
 
 
@@ -26,15 +23,23 @@ var currentHumid=document.querySelector("#humidity")
 var submitCS = function(event){
     // prevent page from refreshing
     event.preventDefault();
-    savedHistory();
+    if (cityInputEl.value== "" || cityInputEl.value ==null) {
+        alert('Please enter valid city!')
+        return false
+      } else {
+        savedHistory()
+      };
     displayHistory();
     // get value from input
-    // console.log(event) - worked
     var city = cityInputEl.value.trim();
-    // var state = stateInputEl.value.trim();
+    getWeather(city);
+    // var geoUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial` ;
+};
+
+function getWeather (city){
     var geoUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial` ;
-    
-  fetch(geoUrl)
+
+    fetch(geoUrl)
   .then( function( response){
 
      if( response.status === 200){
@@ -57,65 +62,94 @@ var submitCS = function(event){
         }
 
   }). then( function(data){
-    console.log(data);
     console.log(data.current)
     console.log(data.daily)
     const currentWeather = data.current;
     const forecastWeather = data.daily;
-    console.log (currentWeather)
-    console.log (forecastWeather)
+    // console.log (currentWeather)
+    // console.log (forecastWeather)
     displaycurrentDay(currentWeather);
-    displayFiveDay(forecastWeather);
+    displayFiveDay(forecastWeather);fiveDayBlock
 
   })
-  if (city){
-    cityInputEl.value="";
-  } else {
-    alert('Please enter valid city!')
-  }
+  cityInputEl.innerHTML="";
 };
 
-var currentWeather = "";
-// display current day
+// display current day (not displaying name)
 function displaycurrentDay (currentWeather) {
-    // catching a no info error
+    // clear out the date icon holder
+    dateIconHolder.innerHTML="";
     console.log('hit')
     console.log(currentWeather)
-    // currentDayBlock.innerHTML="";
     if (current.length === -1){
         alert("No information available!")
     }
-    cityName.innerHTML=cityInputEl.value.trim();
+    // city displayed
+    var cityNameEl = document.createElement('h4')
+    cityNameEl.innerHTML=cityInputEl.value.trim()
+    cityName.appendChild(cityNameEl)
+    // create date and format
     var date = new Date (0);
     date.setUTCSeconds(currentWeather.dt)
     date = date.toLocaleDateString("en-US");
     console.log("today's date" + date)
-    cityName.innerHTML=date
+    // create div for date and icon
+    var dateIconBlock =document.createElement('div')
+    // create date element h4
+    var dateEl= document.createElement('h4')
+    dateEl.innerHTML=date
+    dateIconBlock.appendChild(dateEl)
+    // create icon element
     var iconDisplay = document.createElement("img")
     iconDisplay.classList = "icon"
     iconDisplay.src = "http://openweathermap.org/img/w/" + currentWeather.weather[0].icon + ".png"
-    iconHolder.appendChild(iconDisplay);
-    currentTemp.innerHTML= "Temp: " + currentWeather.temp + "&#176 " + "feels like " + currentWeather.feels_like + "&#176 ";
-    currentHumid.innerHTML = "Humidity: " + currentWeather.humidity + "%";
-    currentWind.innerHTML= "Wind Speed: " + currentWeather.wind_speed + " mph";
-    currentUvi.innerHTML= "UVI: " + currentWeather.uvi;
+    dateIconBlock.appendChild(iconDisplay);
 
-    // // template literal
-    // iconC.setAttribute("src", `http://openweathermap.org/img/w/${iconText}.png`)
-    
+    dateIconHolder.appendChild(dateIconBlock)
+    // dateIconBlock.classList="flex-column diblock"
+    // Temp posted
+    currentTemp.innerHTML= "Temp: " + currentWeather.temp + "&#176 " + "feels like " + currentWeather.feels_like + "&#176 ";
+    // Humidity posted
+    currentHumid.innerHTML = "Humidity: " + currentWeather.humidity + "%";
+    // Wind Speed posted
+    currentWind.innerHTML= "Wind Speed: " + currentWeather.wind_speed + " mph";
+    // UV Index posted with color function
+    currentUvi.innerHTML= "UV Index: " + currentWeather.uvi;
+    currentUvi.style.color = "black"
+    // function to change UV index color
+    if (currentWeather.uvi < 3) {
+        currentUvi.style.background = "green"
+        currentUvi.style.color= "white"
+    } else if (currentWeather.uvi < 6 ){
+        currentUvi.style.background = "yellow"
+        currentUvi.style.color= "gray"
+    } else if (currentWeather.uvi <8){
+        currentUvi.style.background = "orange"
+        currentUvi.style.color= "white"
+    } else if (currentWeather.uvi <11) {
+        currentUvi.style.background = "red"
+        currentUvi.style.color= "white"
+    }
 }
 
 function displayFiveDay (forecastWeather){
     console.log('hit forecast');
     console.log(forecastWeather)
-    // // for loop or for each?
-    // // var daily = fiveDayArr
-    // // 5 for the number of loops  --- i representes index
-    for (var i=0; i < 5; i++){        
+    fiveDayBlock.innerHTML="";
+    for (var i=1; i < 6; i++){        
+        // create parent Div and Append
         var dayBlock = document.createElement("div");
         dayBlock.setAttribute("id", "dayDiv");
-        dayBlock.classList="flex-row justify-space-between align-center"
+        dayBlock.classList="flex-column dayDiv"
+        dayBlock.style.border = "black 3px solid"
+        dayBlock.style.borderRadius = "5%"
         fiveDayBlock.appendChild(dayBlock);
+
+        // create date and icon div and appent
+        var dateIconEl = document.createElement("div")
+        dateIconEl.classList="flex-row justify-space-between"
+        dayBlock.appendChild(dateIconEl)
+
         // create element for date
         var forecastDate= document.createElement('h4');
         var dateNew = new Date (0);
@@ -123,45 +157,62 @@ function displayFiveDay (forecastWeather){
         dateNew = dateNew.toLocaleDateString("en-US");
         forecastDate.innerHTML=dateNew
         console.log("this is the date" + dateNew)
-        dayBlock.appendChild(forecastDate)
+        dateIconEl.appendChild(forecastDate)
+
         // create element for icon
         var forecastIcon = document.createElement('img')
         forecastIcon.src= `http://openweathermap.org/img/wn/${forecastWeather[i].weather[0].icon}.png`
         forecastIcon.innerHTML=forecastWeather[i].weather[0].icon
         console.log(forecastIcon)
-        dayBlock.appendChild(forecastIcon);
+        dateIconEl.appendChild(forecastIcon);
+
         // create element for temp
         var forecastTemp = document.createElement('p')
-        forecastTemp.innerHTML=forecastWeather[i].temp.day
+        forecastTemp.innerHTML="Temp: " + forecastWeather[i].temp.day + "&#176 "
         dayBlock.appendChild(forecastTemp)
+
         // create element for wind
         var forecastWind = document.createElement('p')
-        forecastWind.innerHTML=forecastWeather[i].wind_speed + "MPH"
+        forecastWind.innerHTML="Wind Speed: " + forecastWeather[i].wind_speed + "mph"
         dayBlock.appendChild(forecastWind);
+
         // create element for humidity
         var forecastHumidity = document.createElement ('p')
-        forecastHumidity.innerHTML=forecastWeather[i].humidity + "%"
+        forecastHumidity.innerHTML="Humidity: " + forecastWeather[i].humidity + "%"
         dayBlock.appendChild(forecastHumidity)
+
         // create element for uv
         var forecastUv = document.createElement('p')
-        forecastUv.innerHTML=forecastWeather[i].uvi
+        forecastUv.innerHTML="UV Index: " + forecastWeather[i].uvi
         dayBlock.appendChild(forecastUv)
+            // function to change UV index color
+        if (forecastWeather[i].uvi < 3) {
+            forecastUv.style.background = "green"
+            forecastUv.style.color = "white"
+        } else if (forecastWeather[i].uvi < 6 ){
+            forecastUv.style.background = "yellow"
+            forecastUv.style.color= "gray"
+        } else if (forecastWeather[i].uvi <8){
+            forecastUv.style.background = "orange"
+        } else if (forecastWeather[i].uvi <11) {
+            forecastUv.style.background = "red"
+            forecastUv.style.color = "white"
+        }
+
         
-        // dayBlock.innerHTML=(forecastWeather[i].clouds);
     };
 };
 
-// // account for errors
+// /
 var displayHistory= function (){
     var searchHistory = JSON.parse(localStorage.getItem('history')) || [];
     historyList.innerHTML="";
     searchHistory.forEach(function(history) {
-        var historyEl = document.createElement("a");
-        historyEl.classList="list-item flex-row justify-space-between align-center"
-        // set an attribute to click and resend - Does that need to be another function?
-        historyEl.setAttribute("target", "_blank");   
+        var historyEl = document.createElement("span");
+        historyEl.classList="previousBtn justify-space-between align-center"
+        historyEl.setAttribute("type", "submit");   
         historyList.appendChild(historyEl);
-        var savedCityText = document.createElement("span");
+        var savedCityText = document.createElement("button");
         savedCityText.textContent=history;
         savedCityText.classList= "history";
         historyEl.appendChild(savedCityText);
@@ -173,7 +224,7 @@ var savedHistory = function(){
     var cityHistory = JSON.parse (localStorage.getItem('history')) || [];
 
     var city = cityInputEl.value.trim();
-
+    // do i add the null value reject here?
     if (cityHistory.indexOf(city) === -1){
 
 
@@ -191,4 +242,12 @@ displayHistory();
 
 // starts the chain of events to display weather info
 userFormEl.addEventListener("submit", submitCS);
+
+// function to retrieve history 
+document.addEventListener("click", event => {
+    if (event.target.classList.contains('history')){
+        console.log(event.target.textContent)
+        getWeather(event.target.textContent)
+    }
+})
 

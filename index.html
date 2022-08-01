@@ -13,12 +13,12 @@
 </head>
 <body class="flex-column min-100vh">
     <header class="hero">
-        <h1 class="title"><i></i> 
+        <h1 class="title">
         Weather Dashboard
         </h1>
     </header>
         <main class="flex-row justify-space-between">
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-2">
                 <div class="card">
                     <h3 class="card-header text-uppercase">
                         Search for City
@@ -37,25 +37,25 @@
                     <!-- generate previous city w js and local -->
                 </div>
             </div>
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-10">
                <div class="current" id="current">
                     <!-- change to a and append span elements -->
                     <!-- from input -->
                     <div>
                         <div id="cityName"></div>
-                        <div id="icon">
+                        <div id="dateicon" class="flex-column">
                             <!-- adding img with icon src -->
                         </div>
                     </div>
-                    <h2 id="temp"></h2>
-                    <h2 id="humidity"></h2>
-                    <h2 id="wind"></h2>
-                    <h2 id="uvi"></h2>
+                    <h2 id="temp" class="currentday"></h2>
+                    <h2 id="humidity" class="currentday"></h2>
+                    <h2 id="wind" class="currentday"></h2>
+                    <h2 id="uvi" class="currentday"></h2>
                </div>
                <div class="fiveDayHolder" id="fiveDayHolder">
-                    <h3 class="subtitle">
-                        5-Day Forcast:
-                    </h3>
+                    <h1 class="subtitle">
+                        5-Day Forecast:
+                    </h1>
                     <div class="fiveDay flex-row justify-space-between align-center" id="fiveDay">
                     <!-- generate 5 day forcast -->
                     </div>
