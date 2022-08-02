@@ -98,13 +98,15 @@ function displaycurrentDay (currentWeather) {
     console.log("today's date" + date)
     // create div for date and icon
     var dateIconBlock =document.createElement('div')
+    dateIconBlock.classList="flex-row date-icon"
     // create date element h4
     var dateEl= document.createElement('h4')
+    dateEl.classList="current-date"
     dateEl.innerHTML=date
     dateIconBlock.appendChild(dateEl)
     // create icon element
     var iconDisplay = document.createElement("img")
-    iconDisplay.classList = "icon"
+    iconDisplay.classList = "current-icon"
     iconDisplay.src = "http://openweathermap.org/img/w/" + currentWeather.weather[0].icon + ".png"
     dateIconBlock.appendChild(iconDisplay);
 
@@ -155,6 +157,7 @@ function displayFiveDay (forecastWeather){
 
         // create element for date
         var forecastDate= document.createElement('h4');
+        forecastDate.classList="forecast-date";
         var dateNew = new Date (0);
         dateNew.setUTCSeconds(forecastWeather[i].dt)
         dateNew = dateNew.toLocaleDateString("en-US");

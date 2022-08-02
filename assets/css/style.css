@@ -68,14 +68,63 @@ body {
     background-color: var(--secondary-background);
 }
 
+.current-date {
+    font-size: 24px;
+    margin-top: 6px;
+    margin-bottom: 3px;
+    margin-right: 10px;
+}
+
+/* .current-icon {
+    size: 30px;
+} */
 .current{
     background-color: var(--secondary-background);
 }
 
+.current h2{
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.date-icon{
+    margin: 0px;
+    
+}
 .previousBtn {
     margin: 10px;
 }
 
 .history {
     margin: 10px;
+}
+
+.history:hover{ 
+    border: 4px solid black;
+    background-color: blue;
+    color: white;
+    box-shadow: -2px -2px 0px 2px var(--primary-background);
+    transition: box-shadow .6s linear;
+    left: 5px;
+    bottom:5px;
+    border-radius: 15px;
+    text-align: left;
+    padding: 3px;
+    font-size: 18px;
+    transition: font-size .6s linear
+}
+
+.btn:hover{
+    border: 4px solid black;
+    background-color: blue;
+    color: white;
+    box-shadow: -2px -2px 0px 2px var(--primary-background);
+    transition: box-shadow .6s linear;
+    left: 5px;
+    bottom:5px;
+    border-radius: 15px;
+    text-align: left;
+    padding: 3px;
+    font-size: 18px;
+    transition: font-size .6s linear
 }
