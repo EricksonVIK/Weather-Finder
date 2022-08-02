@@ -18,6 +18,7 @@ var currentUvi=document.querySelector("#uvi");
 var dateIconHolder=document.querySelector("#dateicon");
 var currentHumid=document.querySelector("#humidity")
 
+var cityArr = [];
 
 // form submit function
 var submitCS = function(event){
@@ -34,13 +35,15 @@ var submitCS = function(event){
     displayHistory();
     // get value from input
     var city = cityInputEl.value.trim();
+    cityArr.push(city);
     getWeather(city);
     // var geoUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial` ;
 };
 
 function getWeather (city){
     var geoUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial` ;
-
+    console.log(city)
+    console.log(cityArr)
     fetch(geoUrl)
   .then( function( response){
 
@@ -80,6 +83,7 @@ function getWeather (city){
 // display current day (not displaying name)
 function displaycurrentDay (currentWeather) {
     // clear out the date icon holder
+    console.log(cityArr)
     dateIconHolder.innerHTML="";
     cityName.innerHTML="";
     console.log('hit')
@@ -89,7 +93,8 @@ function displaycurrentDay (currentWeather) {
     }
     // city displayed
     var cityNameEl = document.createElement('h4')
-    cityNameEl.innerHTML=cityInputEl.value.toUpperCase()
+    cityNameEl.classList="cityname"
+    cityNameEl.innerHTML=cityArr[0].toUpperCase()
     cityName.appendChild(cityNameEl)
     // create date and format
     var date = new Date (0);
@@ -135,6 +140,7 @@ function displaycurrentDay (currentWeather) {
         currentUvi.style.background = "red"
         currentUvi.style.color= "white"
     }
+    cityArr=[]
 }
 
 function displayFiveDay (forecastWeather){
@@ -253,6 +259,7 @@ userFormEl.addEventListener("submit", submitCS);
 document.addEventListener("click", event => {
     if (event.target.classList.contains('history')){
         console.log(event.target.textContent)
+        cityArr.push(event.target.textContent)
         getWeather(event.target.textContent)
     }
 })

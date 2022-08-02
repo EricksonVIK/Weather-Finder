@@ -56,7 +56,11 @@ body {
 .history{
     text-transform: uppercase;
 }
-
+.cityname{
+    font-size:36px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
 .subtitle {
     border: white, solid, 15px;
     border-radius: 5%;
