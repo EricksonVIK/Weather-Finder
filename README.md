@@ -16,5 +16,10 @@ https://openweathermap.org/api/one-call-3
 2.  Clean up code with added comments,
 3.  Smooth out style.
 
+### Deployed Site
+https://ericksonvik.github.io/Weather-Finder/
+
 ### Screenshot
 ![](assets/images/Screenshot%202022-08-01%20233321.png)
+
+
