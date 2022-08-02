@@ -18,6 +18,7 @@ var currentUvi=document.querySelector("#uvi");
 var dateIconHolder=document.querySelector("#dateicon");
 var currentHumid=document.querySelector("#humidity")
 
+// city array 
 var cityArr = [];
 
 // form submit function
@@ -28,66 +29,65 @@ var submitCS = function(event){
         alert('Please enter valid city!')
         return false
       } else {
-        // cityInputEl.value.toUpperCase()
         savedHistory()
       };
-    //  should an err catch above be placed to prevent the invalid and duplicate local saves?
     displayHistory();
     // get value from input
     var city = cityInputEl.value.trim();
+    // push to global array
     cityArr.push(city);
     getWeather(city);
-    // var geoUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial` ;
 };
 
+// get weather function based on city input
 function getWeather (city){
     var geoUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial` ;
-    console.log(city)
-    console.log(cityArr)
+    // console.log(city)
+    // console.log(cityArr)
     fetch(geoUrl)
-  .then( function( response){
+        .then( function( response){
 
-     if( response.status === 200){
-        return response.json();
-     } else{
-        return Promise.reject ( new Error(response.statusText))
-     }
-  }).then( function( data){
-     var lon = data.coord.lon;
-     var lat = data.coord.lat;
+            if( response.status === 200){
+                return response.json();
+            } else{
+                return Promise.reject ( new Error(response.statusText))
+            }
+        }).then( function( data){
+            var lon = data.coord.lon;
+            var lat = data.coord.lat;
 
-     return fetch( `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly&appid=${apiKey}&units=imperial`);
+            return fetch( `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly&appid=${apiKey}&units=imperial`);
 
-  }).then( function(response) {
-        if( response.status ===200){
-            return response.json();
-        }else{
+        }).then( function(response) {
+                if( response.status ===200){
+                    return response.json();
+                }else{
 
-            return Promise.reject( new Error ( response.statusText))
-        }
+                    return Promise.reject( new Error ( response.statusText))
+                }
 
-  }). then( function(data){
-    console.log(data.current)
-    console.log(data.daily)
-    const currentWeather = data.current;
-    const forecastWeather = data.daily;
-    // console.log (currentWeather)
-    // console.log (forecastWeather)
-    displaycurrentDay(currentWeather);
-    displayFiveDay(forecastWeather);
+        }). then( function(data){
+            // console.log(data.current)
+            // console.log(data.daily)
+            const currentWeather = data.current;
+            const forecastWeather = data.daily;
+            // console.log (currentWeather)
+            // console.log (forecastWeather)
+            displaycurrentDay(currentWeather);
+            displayFiveDay(forecastWeather);
 
-  })
+        })
   cityInputEl.value="";
 };
 
 // display current day (not displaying name)
 function displaycurrentDay (currentWeather) {
-    // clear out the date icon holder
-    console.log(cityArr)
+    // clear out the placeholders
     dateIconHolder.innerHTML="";
     cityName.innerHTML="";
-    console.log('hit')
-    console.log(currentWeather)
+    // console.log('hit')
+    // console.log(currentWeather)
+
     if (current.length === -1){
         alert("No information available!")
     }
@@ -96,36 +96,43 @@ function displaycurrentDay (currentWeather) {
     cityNameEl.classList="cityname"
     cityNameEl.innerHTML=cityArr[0].toUpperCase()
     cityName.appendChild(cityNameEl)
+
     // create date and format
     var date = new Date (0);
     date.setUTCSeconds(currentWeather.dt)
     date = date.toLocaleDateString("en-US");
     console.log("today's date" + date)
+
     // create div for date and icon
     var dateIconBlock =document.createElement('div')
     dateIconBlock.classList="flex-row date-icon"
+
     // create date element h4
     var dateEl= document.createElement('h4')
     dateEl.classList="current-date"
     dateEl.innerHTML=date
     dateIconBlock.appendChild(dateEl)
+
     // create icon element
     var iconDisplay = document.createElement("img")
     iconDisplay.classList = "current-icon"
     iconDisplay.src = "http://openweathermap.org/img/w/" + currentWeather.weather[0].icon + ".png"
     dateIconBlock.appendChild(iconDisplay);
-
     dateIconHolder.appendChild(dateIconBlock)
-    // dateIconBlock.classList="flex-column diblock"
+
     // Temp posted
     currentTemp.innerHTML= "Temp: " + currentWeather.temp + "&#176 " + "feels like " + currentWeather.feels_like + "&#176 ";
+
     // Humidity posted
     currentHumid.innerHTML = "Humidity: " + currentWeather.humidity + "%";
+
     // Wind Speed posted
     currentWind.innerHTML= "Wind Speed: " + currentWeather.wind_speed + " mph";
+
     // UV Index posted with color function
     currentUvi.innerHTML= "UV Index: " + currentWeather.uvi;
     currentUvi.style.color = "black"
+
     // function to change UV index color
     if (currentWeather.uvi < 3) {
         currentUvi.style.background = "green"
@@ -140,13 +147,16 @@ function displaycurrentDay (currentWeather) {
         currentUvi.style.background = "red"
         currentUvi.style.color= "white"
     }
+    // reset cityArr
     cityArr=[]
 }
 
+// Display the five day forcast
 function displayFiveDay (forecastWeather){
-    console.log('hit forecast');
-    console.log(forecastWeather)
+    // console.log('hit forecast');
+    // console.log(forecastWeather)
     fiveDayBlock.innerHTML="";
+    // loop over forecastWeather
     for (var i=1; i < 6; i++){        
         // create parent Div and Append
         var dayBlock = document.createElement("div");
@@ -168,14 +178,14 @@ function displayFiveDay (forecastWeather){
         dateNew.setUTCSeconds(forecastWeather[i].dt)
         dateNew = dateNew.toLocaleDateString("en-US");
         forecastDate.innerHTML=dateNew
-        console.log("this is the date" + dateNew)
+        // console.log("this is the date" + dateNew)
         dateIconEl.appendChild(forecastDate)
 
         // create element for icon
         var forecastIcon = document.createElement('img')
         forecastIcon.src= `http://openweathermap.org/img/wn/${forecastWeather[i].weather[0].icon}.png`
         forecastIcon.innerHTML=forecastWeather[i].weather[0].icon
-        console.log(forecastIcon)
+        // console.log(forecastIcon)
         dateIconEl.appendChild(forecastIcon);
 
         // create element for temp
@@ -197,7 +207,8 @@ function displayFiveDay (forecastWeather){
         var forecastUv = document.createElement('p')
         forecastUv.innerHTML="UV Index: " + forecastWeather[i].uvi
         dayBlock.appendChild(forecastUv)
-            // function to change UV index color
+
+        // function to change UV index color
         if (forecastWeather[i].uvi < 3) {
             forecastUv.style.background = "green"
             forecastUv.style.color = "white"
@@ -215,7 +226,7 @@ function displayFiveDay (forecastWeather){
     };
 };
 
-// /
+// display previous searches
 var displayHistory= function (){
     var searchHistory = JSON.parse(localStorage.getItem('history')) || [];
     historyList.innerHTML="";
@@ -231,12 +242,13 @@ var displayHistory= function (){
         
     });
 }
+
 // saves city history to display under button (state not included)
 var savedHistory = function(){
     var cityHistory = JSON.parse (localStorage.getItem('history')) || [];
 
     var city = cityInputEl.value.trim();
-    // do i add the null value reject here?
+
     if (cityHistory.indexOf(city) === -1){
 
 
@@ -259,6 +271,7 @@ userFormEl.addEventListener("submit", submitCS);
 document.addEventListener("click", event => {
     if (event.target.classList.contains('history')){
         console.log(event.target.textContent)
+        // push text content to cityArr
         cityArr.push(event.target.textContent)
         getWeather(event.target.textContent)
     }
