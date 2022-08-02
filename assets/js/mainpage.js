@@ -93,6 +93,7 @@ function displaycurrentDay (currentWeather) {
     }
     // city displayed
     var cityNameEl = document.createElement('h4')
+    cityNameEl.classList="cityname"
     cityNameEl.innerHTML=cityArr[0].toUpperCase()
     cityName.appendChild(cityNameEl)
     // create date and format
@@ -258,6 +259,7 @@ userFormEl.addEventListener("submit", submitCS);
 document.addEventListener("click", event => {
     if (event.target.classList.contains('history')){
         console.log(event.target.textContent)
+        cityArr.push(event.target.textContent)
         getWeather(event.target.textContent)
     }
 })
