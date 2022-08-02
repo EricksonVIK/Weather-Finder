@@ -45,10 +45,12 @@ body {
     color: var(--secondary-text);
     font-size: 24px;
     margin-top:3px;
+    margin-bottom:5px;
 }
 
-.card-body{
-    width: 100%;
+.user-input-city{
+    width: 98%;
+   
 }
 .btn {
     margin-top: 5px;
