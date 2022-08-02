@@ -1,25 +1,19 @@
 :root{
     --primary-background: darkblue;
-    --secondary-background: lightblue;
+    --secondary-background: rgb(142, 190, 253);
     --primary-text: black;
     --secondary-text:white;
     --border-radius:5%;
     --primary-border: white, solid, 3px;
 }
 
-/* header {
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    display:flex;
-} */
 
 header {
     border-radius: 5%;
 }
 body {
-    background-image: url("../images/lake\ view.jpg");
-    background-size: cover;
+    background-image: url("../images/Sky-Photos.jpg");
+    background-size:cover;
     background-attachment:fixed;
 }
 
@@ -85,9 +79,6 @@ body {
     margin-right: 10px;
 }
 
-/* .current-icon {
-    size: 30px;
-} */
 .current{
     background-color: var(--secondary-background);
 }
@@ -101,9 +92,6 @@ body {
     margin: 0px;
     
 }
-/* .previousBtn {
-    margin: 10px;
-} */
 
 .btn {
     width: fit-content;
