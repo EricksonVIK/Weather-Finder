@@ -13,37 +13,37 @@
 </head>
 <body class="flex-column min-100vh">
     <header class="hero">
-        <h1 class="title">
+        <h1 class="title align-center flex-row">
         Weather Dashboard
         </h1>
     </header>
         <main class="flex-row justify-space-between">
             <div class="col-12 col-md-2">
-                <div class="card">
+                <div class="card ">
                     <h3 class="card-header text-uppercase">
                         Search for City
                     </h3>
                     <form id="search-form" class="card-body">
-                        <label class="city-label" for="city">
+                        <!-- <label class="city-label" for="city">
                             City
-                        </label>
-                        <input name="city" id="city" type="text" class="user-input-city" style="text-transform:uppercase"/>
+                        </label> -->
+                        <input name="city" id="city" type="text" class="user-input-city" style="text-transform:uppercase" placeholder="Enter City"/>
                         <button type="submit" class="btn" id="btn">
                             Get Weather
                         </button>
                     </form>
                 </div>
-                <div class="searchlist" id="searchlist">
+                <div class="searchlistflex-column justify-space-around" id="searchlist">
                     <!-- generate previous city w js and local -->
                 </div>
             </div>
             <div class="col-12 col-md-10">
-               <div class="current" id="current">
+               <div class="current align-center" id="current">
                     <!-- change to a and append span elements -->
                     <!-- from input -->
                     <div>
                         <div id="cityName"></div>
-                        <div id="dateicon" class="flex-column">
+                        <div id="dateicon" >
                             <!-- adding img with icon src -->
                         </div>
                     </div>
@@ -53,9 +53,9 @@
                     <h2 id="uvi" class="currentday"></h2>
                </div>
                <div class="fiveDayHolder" id="fiveDayHolder">
-                    <h1 class="subtitle">
+                    <h4 class="subtitle align-center flex-row">
                         5-Day Forecast:
-                    </h1>
+                    </h4>
                     <div class="fiveDay flex-row justify-space-between align-center" id="fiveDay">
                     <!-- generate 5 day forcast -->
                     </div>

@@ -4,31 +4,143 @@
     --primary-text: black;
     --secondary-text:white;
     --border-radius:5%;
-    --primary-border: black, solid, 5px;
+    --primary-border: white, solid, 3px;
+}
+
+/* header {
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    display:flex;
+} */
+
+header {
+    border-radius: 5%;
+}
+body {
+    background-image: url("../images/lake\ view.jpg");
+    background-size: cover;
+    background-attachment:fixed;
 }
 
 .hero {
     flex-wrap: wrap;
 }
+
 .title {
     background: var(--secondary-background);
     color: var(--secondary-text);
     justify-content: center;
+    font-size: 42px;
+    border-style: var(--primary-border)
 }
 
+.card {
+    background-color: var(--secondary-background);
+    padding: 5px;
+    border: white, 5px, solid;
+}
+
+.card-header {
+    color: var(--secondary-text);
+    font-size: 24px;
+    margin-top:3px;
+}
+
+.card-body{
+    width: 100%;
+}
+.btn {
+    margin-top: 5px;
+}
 .history{
     text-transform: uppercase;
 }
 
 .subtitle {
-    border: black, solid, 15px;
-    border-radius: 10%;
-    font-size: larger;
+    border: white, solid, 15px;
+    border-radius: 5%;
+    background-color: var(--secondary-background);
+    font-size: 36px;
     justify-content: center;
+    color: var(--secondary-text);
 }
 .dayDiv{
     border: solid, black, 5px;
     margin: 5px;
     padding: 5px;
     background-color: var(--secondary-background);
+}
+
+.current-date {
+    font-size: 24px;
+    margin-top: 6px;
+    margin-bottom: 3px;
+    margin-right: 10px;
+}
+
+/* .current-icon {
+    size: 30px;
+} */
+.current{
+    background-color: var(--secondary-background);
+}
+
+.current h2{
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.date-icon{
+    margin: 0px;
+    
+}
+/* .previousBtn {
+    margin: 10px;
+} */
+
+.btn {
+    width: fit-content;
+    width: 100%;
+    border: 2px solid black;
+    border-radius: 5px ;
+}
+.history {
+    margin: 10px;
+    border-radius: 5px;
+    margin: 10px;
+    margin-left:3px;
+    width:max-content;
+    width:100%;
+}
+
+
+.history:hover{ 
+    border: 2px solid black;
+    background-color: blue;
+    color: white;
+    box-shadow: -2px -2px 0px 2px var(--primary-background);
+    transition: box-shadow .6s linear;
+    left: 5px;
+    bottom:5px;
+    border-radius: 15px;
+    text-align: left;
+    padding: 3px;
+    font-size: 18px;
+    transition: font-size .6s linear
+}
+
+.btn:hover{
+    border: 2px solid black;
+    background-color: blue;
+    color: white;
+    box-shadow: -2px -2px 0px 2px var(--primary-background);
+    transition: box-shadow .6s linear;
+    left: 5px;
+    bottom:5px;
+    border-radius: 15px;
+    text-align: left;
+    padding: 3px;
+    font-size: 18px;
+    transition: font-size .6s linear
 }

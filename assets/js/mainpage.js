@@ -23,12 +23,14 @@ var currentHumid=document.querySelector("#humidity")
 var submitCS = function(event){
     // prevent page from refreshing
     event.preventDefault();
-    if (cityInputEl.value== "" || cityInputEl.value ==null) {
+    if (cityInputEl.value === "" || cityInputEl.value === null) {
         alert('Please enter valid city!')
         return false
       } else {
+        // cityInputEl.value.toUpperCase()
         savedHistory()
       };
+    //  should an err catch above be placed to prevent the invalid and duplicate local saves?
     displayHistory();
     // get value from input
     var city = cityInputEl.value.trim();
@@ -69,16 +71,17 @@ function getWeather (city){
     // console.log (currentWeather)
     // console.log (forecastWeather)
     displaycurrentDay(currentWeather);
-    displayFiveDay(forecastWeather);fiveDayBlock
+    displayFiveDay(forecastWeather);
 
   })
-  cityInputEl.innerHTML="";
+  cityInputEl.value="";
 };
 
 // display current day (not displaying name)
 function displaycurrentDay (currentWeather) {
     // clear out the date icon holder
     dateIconHolder.innerHTML="";
+    cityName.innerHTML="";
     console.log('hit')
     console.log(currentWeather)
     if (current.length === -1){
@@ -86,7 +89,7 @@ function displaycurrentDay (currentWeather) {
     }
     // city displayed
     var cityNameEl = document.createElement('h4')
-    cityNameEl.innerHTML=cityInputEl.value.trim()
+    cityNameEl.innerHTML=cityInputEl.value.toUpperCase()
     cityName.appendChild(cityNameEl)
     // create date and format
     var date = new Date (0);
@@ -95,13 +98,15 @@ function displaycurrentDay (currentWeather) {
     console.log("today's date" + date)
     // create div for date and icon
     var dateIconBlock =document.createElement('div')
+    dateIconBlock.classList="flex-row date-icon"
     // create date element h4
     var dateEl= document.createElement('h4')
+    dateEl.classList="current-date"
     dateEl.innerHTML=date
     dateIconBlock.appendChild(dateEl)
     // create icon element
     var iconDisplay = document.createElement("img")
-    iconDisplay.classList = "icon"
+    iconDisplay.classList = "current-icon"
     iconDisplay.src = "http://openweathermap.org/img/w/" + currentWeather.weather[0].icon + ".png"
     dateIconBlock.appendChild(iconDisplay);
 
@@ -141,7 +146,7 @@ function displayFiveDay (forecastWeather){
         var dayBlock = document.createElement("div");
         dayBlock.setAttribute("id", "dayDiv");
         dayBlock.classList="flex-column dayDiv"
-        dayBlock.style.border = "black 3px solid"
+        dayBlock.style.border = "white 3px solid"
         dayBlock.style.borderRadius = "5%"
         fiveDayBlock.appendChild(dayBlock);
 
@@ -152,6 +157,7 @@ function displayFiveDay (forecastWeather){
 
         // create element for date
         var forecastDate= document.createElement('h4');
+        forecastDate.classList="forecast-date";
         var dateNew = new Date (0);
         dateNew.setUTCSeconds(forecastWeather[i].dt)
         dateNew = dateNew.toLocaleDateString("en-US");
